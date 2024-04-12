@@ -1,0 +1,123 @@
+using System;
+
+namespace RecipeApp
+{
+    // Class to represent an Ingredient
+    class Ingredient
+    {
+        // Properties for ingredient name, quantity, and unit
+        public string Name { get; set; } // Name of the ingredient
+        public double Quantity { get; set; } // Quantity of the ingredient
+        public string Unit { get; set; } // Unit of measurement for the ingredient
+    }
+
+    // Class to represent a Recipe
+    class Recipe
+    {
+        // Properties for recipe name, ingredients, and cooking steps
+        public string Name { get; set; } // Name of the recipe
+        public Ingredient[] Ingredients { get; set; } // Array to store ingredients
+        public string[] Steps { get; set; } // Array to store cooking steps
+
+        // Method to display the recipe
+        public void DisplayRecipe()
+        {
+            // Display the name of the recipe
+            Console.WriteLine($"Recipe: {Name}");
+            // Display the list of ingredients with their quantities and units
+            Console.WriteLine("\nIngredients:");
+            foreach (var ingredient in Ingredients)
+            {
+                Console.WriteLine($"{ingredient.Quantity} {ingredient.Unit} of {ingredient.Name}");
+            }
+            // Display the cooking steps
+            Console.WriteLine("\nSteps:");
+            for (int i = 0; i < Steps.Length; i++)
+            {
+                Console.WriteLine($"{i + 1}. {Steps[i]}");
+            }
+        }
+
+        // Method to scale the recipe by a given factor
+        public void ScaleRecipe(double factor)
+        {
+            // Iterate through each ingredient in the recipe
+            foreach (var ingredient in Ingredients)
+            {
+                // Scale the quantity of the ingredient by the entered factor
+                ingredient.Quantity *= factor;
+            }
+        }
+
+        // Method to reset ingredient quantities to original values
+        public void ResetQuantities()
+        {
+            // Reset quantities to original values
+            // This method can be implemented if needed
+        }
+    }
+
+    // Main Program Class
+    class Program
+    {
+        // Main Method
+        static void Main(string[] args)
+        {
+            Recipe recipe = new Recipe(); // Create a new Recipe instance
+
+            Console.WriteLine("Welcome to the Recipe Maker!");
+
+            recipe.Name = GetUserInput("recipe name"); // Get recipe name from user
+
+            // Get the number of ingredients from the user and initialize the Ingredients array
+            int numIngredients = GetNumberInput("number of ingredients");
+            recipe.Ingredients = new Ingredient[numIngredients];
+            // Loop to gather details for each ingredient
+            for (int i = 0; i < numIngredients; i++)
+            {
+                // Get ingredient details from user
+                string name = GetUserInput($"name of ingredient {i + 1}");
+                double quantity = GetDoubleInput($"quantity of {name}");
+                string unit = GetUserInput($"unit of measurement for {name}");
+                // Create a new Ingredient instance and add it to the Ingredients array
+                recipe.Ingredients[i] = new Ingredient { Name = name, Quantity = quantity, Unit = unit };
+            }
+
+            // Get the number of cooking steps from the user and initialize the Steps array
+            int numSteps = GetNumberInput("number of cooking steps");
+            recipe.Steps = new string[numSteps];
+            // Loop to gather details for each cooking step
+            for (int i = 0; i < numSteps; i++)
+            {
+                // Get cooking step details from user
+                recipe.Steps[i] = GetUserInput($"step {i + 1}");
+            }
+
+            // Display the full recipe
+            recipe.DisplayRecipe();
+
+            // Get scaling factor from the user and scale the recipe
+            double factor = GetDoubleInput("scaling factor (0.5, 2, or 3)");
+            recipe.ScaleRecipe(factor);
+            Console.WriteLine("\nScaled Recipe:");
+            recipe.DisplayRecipe();
+
+            // Reset quantities to original values (not implemented in this version)
+            recipe.ResetQuantities();
+
+            // Clear all data to enter a new recipe
+            recipe = new Recipe();
+
+            Console.WriteLine("\nAll data cleared. You can enter a new recipe.");
+
+            Console.ReadLine(); // Keep console window open
+        }
+
+        // Helper method to get user input for strings
+        static string GetUserInput(string prompt)
+        {Console.Write($"Enter the {prompt}: ");
+            return Console.ReadLine();
+        }
+
+        // Helper method to get user input for integers
+      2
